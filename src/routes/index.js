@@ -10,6 +10,7 @@ import HelpOrders from '../pages/HelpOrders';
 import Matriculations from '../pages/Matriculations';
 import Plans from '../pages/Plans';
 import Students from '../pages/Students';
+import Profile from '../pages/Profile';
 
 export default function Routes() {
   return (
@@ -21,6 +22,7 @@ export default function Routes() {
       <Route path="/matriculations" component={Matriculations} isPrivate />
       <Route path="/plans" component={Plans} isPrivate />
       <Route path="/students" component={Students} isPrivate />
+      <Route path="/profile" component={Profile} isPrivate />
     </Switch>
   );
 }
