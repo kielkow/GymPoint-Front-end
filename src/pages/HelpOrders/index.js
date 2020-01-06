@@ -1,7 +1,14 @@
 import React from 'react';
+import { Form } from '@rocketseat/unform';
 
-// import { Container } from './styles';
+import { Container } from './styles';
 
-export default function HelpOrders() {
-  return <h1>HelpOrders</h1>;
+export default function Students() {
+  return (
+    <Container>
+      <Form>
+        <strong>Help Orders</strong>
+      </Form>
+    </Container>
+  );
 }
