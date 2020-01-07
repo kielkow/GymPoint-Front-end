@@ -8,7 +8,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
 
-  form {
+  header {
     display: flex;
     justify-content: space-between;
 
@@ -43,5 +43,80 @@ export const Container = styled.div`
         border: 0;
       }
     }
+  }
+`;
+
+export const Content = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  background: #fff;
+  margin-top: 30px;
+  border-radius: 4px;
+  padding: 10px;
+
+  header {
+    display: flex;
+    justify-content: left;
+    max-width: 1000px;
+    font-weight: bold;
+    margin-bottom: 20px;
+  }
+
+  ul {
+    display: flex;
+    flex-direction: column;
+    justify-content: left;
+
+    li {
+      display: flex;
+      padding-bottom: 15px;
+      border-bottom: 1px solid #eee;
+      & + li {
+        margin-top: 15px;
+      }
+      color: ${lighten(0.03, '#444444')};
+      div {
+        display: flex;
+        #edit {
+          color: #4d85ee;
+        }
+        #delete {
+          color: #de3b3b;
+        }
+        button {
+          border: 0;
+          background: none;
+          & + button {
+            margin-left: 20px;
+          }
+        }
+      }
+    }
+    li > span:first-child {
+      width: 30%;
+    }
+    li > span:first-child + span {
+      width: 30%;
+    }
+    li > span:first-child + span + span {
+      width: 30%;
+    }
+    li > div {
+      width: 0%;
+    }
+  }
+
+  header > span:first-child {
+    width: 30%;
+  }
+  header > span:first-child + span {
+    width: 30%;
+  }
+  header > span:first-child + span + span {
+    width: 30%;
+  }
+  header > div {
+    width: 0%;
   }
 `;

@@ -1,13 +1,13 @@
 import React from 'react';
-import { Form, Input } from '@rocketseat/unform';
+import { Input } from '@rocketseat/unform';
 import { MdAdd } from 'react-icons/md';
 
-import { Container } from './styles';
+import { Container, Content } from './styles';
 
 export default function Students() {
   return (
     <Container>
-      <Form>
+      <header>
         <strong>Management Students</strong>
         <div>
           <button type="button">
@@ -16,7 +16,82 @@ export default function Students() {
           </button>
           <Input name="name" placeholder="Search by name..." />
         </div>
-      </Form>
+      </header>
+      <Content>
+        <header>
+          <span>NAME</span>
+          <span>E-MAIL</span>
+          <span>AGE</span>
+          <span />
+        </header>
+        <ul>
+          <li>
+            <span>Matheus Kielkowski</span>
+            <span>matheuskiel@fiorifer.com.br</span>
+            <span>19</span>
+            <div>
+              <button id="edit" type="button">
+                edit
+              </button>
+              <button id="delete" type="button">
+                delete
+              </button>
+            </div>
+          </li>
+          <li>
+            <span>Matheus Kielkowski</span>
+            <span>matheuskiel@fiorifer.com.br</span>
+            <span>19</span>
+            <div>
+              <button id="edit" type="button">
+                edit
+              </button>
+              <button id="delete" type="button">
+                delete
+              </button>
+            </div>
+          </li>
+          <li>
+            <span>Matheus Kielkowski</span>
+            <span>matheuskiel@fiorifer.com.br</span>
+            <span>19</span>
+            <div>
+              <button id="edit" type="button">
+                edit
+              </button>
+              <button id="delete" type="button">
+                delete
+              </button>
+            </div>
+          </li>
+          <li>
+            <span>Matheus Silva</span>
+            <span id="span_email">matheuskiel@fiorifer.com.br</span>
+            <span id="span_age">22</span>
+            <div>
+              <button id="edit" type="button">
+                edit
+              </button>
+              <button id="delete" type="button">
+                delete
+              </button>
+            </div>
+          </li>
+          <li>
+            <span>Monica</span>
+            <span id="span_email">monica@gmail.com.br</span>
+            <span id="span_age">45</span>
+            <div>
+              <button id="edit" type="button">
+                edit
+              </button>
+              <button id="delete" type="button">
+                delete
+              </button>
+            </div>
+          </li>
+        </ul>
+      </Content>
     </Container>
   );
 }
