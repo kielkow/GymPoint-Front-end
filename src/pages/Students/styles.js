@@ -97,10 +97,10 @@ export const Content = styled.div`
       width: 30%;
     }
     li > span:first-child + span {
-      width: 30%;
+      width: 31%;
     }
     li > span:first-child + span + span {
-      width: 30%;
+      width: 29%;
     }
     li > div {
       width: 0%;
@@ -111,7 +111,7 @@ export const Content = styled.div`
     width: 30%;
   }
   header > span:first-child + span {
-    width: 30%;
+    width: 30.5%;
   }
   header > span:first-child + span + span {
     width: 30%;
