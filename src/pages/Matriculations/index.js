@@ -1,13 +1,14 @@
 import React from 'react';
-import { Form, Input } from '@rocketseat/unform';
+import { Input } from '@rocketseat/unform';
 import { MdAdd } from 'react-icons/md';
+import { AiTwotoneAlert } from 'react-icons/ai';
 
-import { Container } from './styles';
+import { Container, Content } from './styles';
 
 export default function Students() {
   return (
     <Container>
-      <Form>
+      <header>
         <strong>Management Matriculations</strong>
         <div>
           <button type="button">
@@ -16,7 +17,73 @@ export default function Students() {
           </button>
           <Input name="name" placeholder="Search by name..." />
         </div>
-      </Form>
+      </header>
+      <Content>
+        <header>
+          <span>NAME</span>
+          <span>PLANO</span>
+          <span>START</span>
+          <span>END</span>
+          <span>ACTIVE</span>
+          <span />
+        </header>
+        <ul>
+          <li>
+            <span>Matheus Kielkowski</span>
+            <span>Start</span>
+            <span>30 de abril de 2019</span>
+            <span>30 de maio de 2019</span>
+            <span>
+              <AiTwotoneAlert size={24} color="#eee" />
+            </span>
+            <span />
+            <div>
+              <button id="edit" type="button">
+                edit
+              </button>
+              <button id="delete" type="button">
+                delete
+              </button>
+            </div>
+          </li>
+          <li>
+            <span>Matheus Tottoli</span>
+            <span>Gold</span>
+            <span>30 de junho de 2019</span>
+            <span>30 de agosto de 2019</span>
+            <span>
+              <AiTwotoneAlert size={24} color="#eee" />
+            </span>
+            <span />
+            <div>
+              <button id="edit" type="button">
+                edit
+              </button>
+              <button id="delete" type="button">
+                delete
+              </button>
+            </div>
+          </li>
+          <li>
+            <span>Lucas Silva</span>
+            <span>Platinum</span>
+            <span>30 de agosto de 2019</span>
+            <span>30 de dezembro de 2019</span>
+            <span>
+              <AiTwotoneAlert size={24} color="#eee" />
+            </span>
+            <span />
+            <div>
+              <button id="edit" type="button">
+                edit
+              </button>
+              <button id="delete" type="button">
+                delete
+              </button>
+            </div>
+          </li>
+        </ul>
+      </Content>
     </Container>
   );
 }
