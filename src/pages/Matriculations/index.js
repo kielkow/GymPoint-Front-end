@@ -52,7 +52,7 @@ export default function Students() {
             <span>30 de junho de 2019</span>
             <span>30 de agosto de 2019</span>
             <span>
-              <AiTwotoneAlert size={24} color="#eee" />
+              <AiTwotoneAlert size={24} color="#72e886" />
             </span>
             <span />
             <div>
