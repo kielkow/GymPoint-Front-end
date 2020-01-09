@@ -3,6 +3,8 @@ import { Input } from '@rocketseat/unform';
 import { MdAdd } from 'react-icons/md';
 import { AiTwotoneAlert } from 'react-icons/ai';
 
+import { Link } from 'react-router-dom';
+
 import { Container, Content } from './styles';
 
 export default function Students() {
@@ -11,11 +13,11 @@ export default function Students() {
       <header>
         <strong>Management Matriculations</strong>
         <div>
-          <button type="button">
+          <Link to="/registermatriculation">
             <MdAdd color="#fff" size={18} />
             <span>Register</span>
-          </button>
-          <Input name="name" placeholder="Search by name..." />
+          </Link>
+          <Input name="name" placeholder="Search by student..." />
         </div>
       </header>
       <Content>

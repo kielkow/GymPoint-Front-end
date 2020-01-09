@@ -9,6 +9,7 @@ import SignUp from '../pages/SignUp';
 import HelpOrders from '../pages/HelpOrders';
 
 import Matriculations from '../pages/Matriculations';
+import RegisterMatriculation from '../pages/Matriculations/Register';
 
 import Plans from '../pages/Plans';
 import RegisterPlan from '../pages/Plans/Register';
@@ -27,6 +28,11 @@ export default function Routes() {
       <Route path="/helporders" component={HelpOrders} isPrivate />
 
       <Route path="/matriculations" component={Matriculations} isPrivate />
+      <Route
+        path="/registermatriculation"
+        component={RegisterMatriculation}
+        isPrivate
+      />
 
       <Route path="/plans" component={Plans} isPrivate />
       <Route path="/registerplan" component={RegisterPlan} isPrivate />

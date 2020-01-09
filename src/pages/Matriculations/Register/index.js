@@ -6,13 +6,13 @@ import { Link } from 'react-router-dom';
 
 import { Container, Content } from './styles';
 
-export default function RegisterPlan() {
+export default function RegisterMatriculation() {
   return (
     <Container>
       <header>
-        <strong>Register Plan</strong>
+        <strong>Register Matriculation</strong>
         <div>
-          <Link type="button" to="/plans">
+          <Link to="/matriculations">
             <MdArrowBack color="#fff" size={18} />
             <span>Back</span>
           </Link>
@@ -24,27 +24,36 @@ export default function RegisterPlan() {
       </header>
       <Content type="submit">
         <div>
-          <span>TITLE PLAN</span>
-          <Input name="title" placeholder="Title plan..." />
+          <span>STUDENT</span>
+          <Input name="student" placeholder="Student matriculation..." />
         </div>
         <div className="paternDiv">
           <div className="childDiv">
-            <span>DURATION (mounths)</span>
+            <span>PLAN</span>
+            <Input name="plan" placeholder="Plan matriculation..." />
+          </div>
+          <div className="childDiv">
+            <span>START DATE</span>
             <Input
-              name="duration"
-              type="number"
-              placeholder="Duration plan..."
+              name="startdate"
+              type="date"
+              placeholder="Start date matriculation..."
             />
           </div>
           <div className="childDiv">
-            <span>PRICE</span>
-            <Input name="price" type="number" placeholder="Price plan..." />
+            <span>END DATE</span>
+            <Input
+              name="enddate"
+              readOnly
+              style={{
+                backgroundColor: '#e6e3e3',
+              }}
+            />
           </div>
           <div className="childDiv">
-            <span>TOTAL PRICE</span>
+            <span>FINAL PRICE</span>
             <Input
-              name="totalprice"
-              type="number"
+              name="finalprice"
               readOnly
               style={{
                 backgroundColor: '#e6e3e3',
