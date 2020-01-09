@@ -89,6 +89,10 @@ export const Content = styled.form`
       padding: 10px 10px;
       border-radius: 4px;
       border: 0.5px solid #eee;
+
+      option {
+        font-size: 14px;
+      }
     }
 
     & + div {
