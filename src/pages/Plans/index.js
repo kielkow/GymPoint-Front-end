@@ -2,6 +2,8 @@ import React from 'react';
 import { Input } from '@rocketseat/unform';
 import { MdAdd } from 'react-icons/md';
 
+import { Link } from 'react-router-dom';
+
 import { Container, Content } from './styles';
 
 export default function Students() {
@@ -10,10 +12,10 @@ export default function Students() {
       <header>
         <strong>Management Plans</strong>
         <div>
-          <button type="button">
+          <Link to="/registerplan">
             <MdAdd color="#fff" size={18} />
             <span>Register</span>
-          </button>
+          </Link>
           <Input name="name" placeholder="Search by name..." />
         </div>
       </header>
