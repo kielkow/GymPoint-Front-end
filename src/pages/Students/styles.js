@@ -20,7 +20,7 @@ export const Container = styled.div`
     div {
       display: flex;
       justify-content: center;
-      button {
+      a {
         background: #ee4d63;
         color: #fff;
         padding: 5px 10px;
