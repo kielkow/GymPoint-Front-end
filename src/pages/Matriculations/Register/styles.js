@@ -85,6 +85,12 @@ export const Content = styled.form`
       border: 0.5px solid #eee;
     }
 
+    select {
+      padding: 10px 10px;
+      border-radius: 4px;
+      border: 0.5px solid #eee;
+    }
+
     & + div {
       margin-top: 20px;
     }
