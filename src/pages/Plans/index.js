@@ -32,9 +32,9 @@ export default function Students() {
             <span>1 mounth</span>
             <span>R$ 129,00</span>
             <div>
-              <button id="edit" type="button">
+              <Link id="edit" to="/editplan">
                 edit
-              </button>
+              </Link>
               <button id="delete" type="button">
                 delete
               </button>

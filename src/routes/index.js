@@ -13,6 +13,7 @@ import RegisterMatriculation from '../pages/Matriculations/Register';
 
 import Plans from '../pages/Plans';
 import RegisterPlan from '../pages/Plans/Register';
+import EditPlan from '../pages/Plans/Edit';
 
 import Students from '../pages/Students';
 import RegisterStudent from '../pages/Students/Register';
@@ -37,6 +38,7 @@ export default function Routes() {
 
       <Route path="/plans" component={Plans} isPrivate />
       <Route path="/registerplan" component={RegisterPlan} isPrivate />
+      <Route path="/editplan" component={EditPlan} isPrivate />
 
       <Route path="/students" component={Students} isPrivate />
       <Route path="/registerstudent" component={RegisterStudent} isPrivate />
