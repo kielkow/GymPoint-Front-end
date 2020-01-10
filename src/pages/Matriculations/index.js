@@ -40,9 +40,9 @@ export default function Students() {
             </span>
             <span />
             <div>
-              <button id="edit" type="button">
+              <Link id="edit" to="/editmatriculation">
                 edit
-              </button>
+              </Link>
               <button id="delete" type="button">
                 delete
               </button>
