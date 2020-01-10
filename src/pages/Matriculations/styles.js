@@ -80,6 +80,7 @@ export const Content = styled.div`
         display: flex;
         #edit {
           color: #4d85ee;
+          border-top: 5px;
         }
         #delete {
           color: #de3b3b;
@@ -94,6 +95,8 @@ export const Content = styled.div`
         a {
           border: 0;
           background: none;
+          display: flex;
+          align-items: center;
           & + button {
             margin-left: 20px;
           }
