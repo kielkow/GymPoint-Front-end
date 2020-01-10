@@ -31,9 +31,9 @@ export default function Students() {
             <span>matheuskiel@fiorifer.com.br</span>
             <span>19</span>
             <div>
-              <button id="edit" type="button">
+              <Link id="edit" to="/editstudent">
                 edit
-              </button>
+              </Link>
               <button id="delete" type="button">
                 delete
               </button>

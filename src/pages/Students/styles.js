@@ -91,6 +91,13 @@ export const Content = styled.div`
             margin-left: 20px;
           }
         }
+        a {
+          border: 0;
+          background: none;
+          & + button {
+            margin-left: 20px;
+          }
+        }
       }
     }
     li > span:first-child {

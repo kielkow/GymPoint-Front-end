@@ -16,6 +16,7 @@ import RegisterPlan from '../pages/Plans/Register';
 
 import Students from '../pages/Students';
 import RegisterStudent from '../pages/Students/Register';
+import EditStudent from '../pages/Students/Edit';
 
 import Profile from '../pages/Profile';
 
@@ -39,6 +40,7 @@ export default function Routes() {
 
       <Route path="/students" component={Students} isPrivate />
       <Route path="/registerstudent" component={RegisterStudent} isPrivate />
+      <Route path="/editstudent" component={EditStudent} isPrivate />
 
       <Route path="/profile" component={Profile} isPrivate />
     </Switch>
