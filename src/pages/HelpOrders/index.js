@@ -111,12 +111,16 @@ export default function Students() {
                   marginTop: '10px',
                   color: '#796b6bee',
                   wordSpacing: '5px',
+                  lineHeight: '20px',
                 }}
               >
                 It has survived not only five centuries, but also the leap into
                 electronic typesetting, remaining essentially unchanged. It was
                 popularised in the 1960s with the release of Letraset sheets
-                containing Lorem?
+                containing Lorem? It has survived not only five centuries, but
+                also the leap into electronic typesetting, remaining essentially
+                unchanged. It was popularised in the 1960s with the release of
+                Letraset sheets containing Lorem?
               </p>
             </div>
             <div
@@ -124,16 +128,17 @@ export default function Students() {
                 marginTop: '20px',
                 display: 'flex',
                 flexDirection: 'column',
+                height: '200px',
               }}
             >
               <span style={{ fontWeight: 'bold' }}>ANSWER</span>
               <textarea
-                placeholder="Your answer..."
+                placeholder=" Your answer..."
                 style={{
                   fontSize: '14px',
                   padding: '5px 0px',
-                  borderRadius: '4px',
-                  border: '0',
+                  borderRadius: '2px',
+                  border: '0.5px solid #eee',
                   margin: '10px 0px',
                   flex: '1',
                   resize: 'none',
