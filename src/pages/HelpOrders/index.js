@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
@@ -27,6 +28,7 @@ const useStyles = makeStyles(theme => ({
 export default function Students() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [btnColor, setBtnColor] = React.useState('#ee4d63');
 
   const handleOpen = () => {
     setOpen(true);
@@ -34,6 +36,14 @@ export default function Students() {
 
   const handleClose = () => {
     setOpen(false);
+  };
+
+  const changeBtnColorOver = () => {
+    setBtnColor('#dc465a');
+  };
+
+  const changeBtnColorOut = () => {
+    setBtnColor('#ee4d63');
   };
 
   return (
@@ -149,7 +159,7 @@ export default function Students() {
             <button
               type="button"
               style={{
-                background: '#ee4d63',
+                background: btnColor,
                 color: '#fff',
                 padding: '10px 10px',
                 border: '0',
@@ -159,6 +169,8 @@ export default function Students() {
                 alignItems: 'center',
                 justifyContent: 'center',
               }}
+              onMouseOver={changeBtnColorOver}
+              onMouseOut={changeBtnColorOut}
             >
               Answer Student
             </button>
