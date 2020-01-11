@@ -1,3 +1,5 @@
+/* eslint-disable no-alert */
+/* eslint-disable no-restricted-globals */
 import React from 'react';
 import { Input } from '@rocketseat/unform';
 import { MdAdd } from 'react-icons/md';
@@ -6,7 +8,11 @@ import { Link } from 'react-router-dom';
 
 import { Container, Content } from './styles';
 
-export default function Students() {
+export default function Plans() {
+  function deletePlan() {
+    confirm('Do you really wish delete this plan?');
+  }
+
   return (
     <Container>
       <header>
@@ -35,7 +41,7 @@ export default function Students() {
               <Link id="edit" to="/editplan">
                 edit
               </Link>
-              <button id="delete" type="button">
+              <button id="delete" type="button" onClick={deletePlan}>
                 delete
               </button>
             </div>
