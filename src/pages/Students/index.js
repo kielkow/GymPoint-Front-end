@@ -32,6 +32,20 @@ export default function Students() {
       const { data } = response;
 
       setStudents(data);
+
+      const checkFinalPage = await api.get('/students', {
+        params: {
+          page: page + 1,
+        },
+      });
+
+      if (checkFinalPage.data.length === 0) {
+        setLoadingNext(false);
+        setFinalPage(true);
+      } else {
+        setLoadingNext(false);
+        setFinalPage(false);
+      }
     }
 
     loadStudents();

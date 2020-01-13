@@ -1,16 +1,99 @@
+/* eslint-disable prefer-const */
 /* eslint-disable no-alert */
 /* eslint-disable no-restricted-globals */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input } from '@rocketseat/unform';
 import { MdAdd } from 'react-icons/md';
 
 import { Link } from 'react-router-dom';
 
-import { Container, Content } from './styles';
+import { Container, Content, Pagination, Previous, Next } from './styles';
+
+import api from '~/services/api';
 
 export default function Plans() {
+  const [plans, setPlans] = useState([]);
+  let [page, setPage] = useState(1);
+  const [loadingNext, setLoadingNext] = useState(false);
+  const [finalPage, setFinalPage] = useState(false);
+
+  useEffect(() => {
+    async function loadPlans() {
+      const response = await api.get('/plans', {
+        params: {
+          page,
+        },
+      });
+
+      const { data } = response;
+
+      setPlans(data);
+
+      const checkFinalPage = await api.get('/plans', {
+        params: {
+          page: page + 1,
+        },
+      });
+
+      if (checkFinalPage.data.length === 0) {
+        setLoadingNext(false);
+        setFinalPage(true);
+      } else {
+        setLoadingNext(false);
+        setFinalPage(false);
+      }
+    }
+
+    loadPlans();
+  }, [page]);
+
   function deletePlan() {
     confirm('Do you really wish delete this plan?');
+  }
+
+  async function next() {
+    setLoadingNext(true);
+
+    setPage((page += 1));
+
+    const pagePlans = await api.get('/plans', {
+      params: {
+        page,
+      },
+    });
+
+    const checkFinalPage = await api.get('/plans', {
+      params: {
+        page: page + 1,
+      },
+    });
+
+    if (checkFinalPage.data.length === 0) {
+      setPlans(pagePlans.data);
+      setLoadingNext(false);
+      setFinalPage(true);
+    } else {
+      setLoadingNext(false);
+      setFinalPage(false);
+    }
+  }
+
+  async function previous() {
+    setLoadingNext(true);
+    setFinalPage(false);
+
+    if (page !== 1) {
+      setPage((page -= 1));
+    }
+
+    const pagePlans = await api.get('/plans', {
+      params: {
+        page,
+      },
+    });
+
+    setPlans(pagePlans.data);
+    setLoadingNext(false);
   }
 
   return (
@@ -28,52 +111,46 @@ export default function Plans() {
       <Content>
         <header>
           <span>TITLE</span>
-          <span>DURATION</span>
-          <span>VALUE p/MOUNTH</span>
+          <span>DURATION (month)</span>
+          <span>VALUE p/MONTH</span>
           <span />
         </header>
         <ul>
-          <li>
-            <span>Start</span>
-            <span>1 mounth</span>
-            <span>R$ 129,00</span>
-            <div>
-              <Link id="edit" to="/editplan">
-                edit
-              </Link>
-              <button id="delete" type="button" onClick={deletePlan}>
-                delete
-              </button>
-            </div>
-          </li>
-          <li>
-            <span>Gold</span>
-            <span>3 mounth</span>
-            <span>R$ 109,00</span>
-            <div>
-              <button id="edit" type="button">
-                edit
-              </button>
-              <button id="delete" type="button">
-                delete
-              </button>
-            </div>
-          </li>
-          <li>
-            <span>Diamond</span>
-            <span>6 mounth</span>
-            <span>R$ 89,00</span>
-            <div>
-              <button id="edit" type="button">
-                edit
-              </button>
-              <button id="delete" type="button">
-                delete
-              </button>
-            </div>
-          </li>
+          {plans.map(plan => (
+            <li key={plan.id}>
+              <span>{plan.title}</span>
+              <span>{plan.duration}</span>
+              <span>{plan.price}</span>
+              <div>
+                <Link id="edit" to="/editplan">
+                  edit
+                </Link>
+                <button id="delete" type="button" onClick={deletePlan}>
+                  delete
+                </button>
+              </div>
+            </li>
+          ))}
         </ul>
       </Content>
+      <Pagination>
+        <Previous
+          type="button"
+          onClick={() => previous()}
+          page={page}
+          loadingNext={loadingNext}
+        >
+          Previous
+        </Previous>
+        <Next
+          type="button"
+          onClick={() => next()}
+          loadingNext={loadingNext}
+          finalPage={finalPage}
+        >
+          Next
+        </Next>
+      </Pagination>
     </Container>
   );
 }
