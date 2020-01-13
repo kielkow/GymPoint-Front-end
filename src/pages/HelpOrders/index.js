@@ -1,11 +1,14 @@
+/* eslint-disable prefer-const */
 /* eslint-disable jsx-a11y/mouse-events-have-key-events */
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 
-import { Container, Content } from './styles';
+import { Container, Content, Pagination, Previous, Next } from './styles';
+
+import api from '~/services/api';
 
 const useStyles = makeStyles(theme => ({
   modal: {
@@ -29,6 +32,86 @@ export default function Students() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [btnColor, setBtnColor] = React.useState('#ee4d63');
+
+  const [helporders, setHelpOrders] = useState([]);
+  let [page, setPage] = useState(1);
+  const [loadingNext, setLoadingNext] = useState(false);
+  const [finalPage, setFinalPage] = useState(false);
+
+  useEffect(() => {
+    async function loadHelpOrders() {
+      const response = await api.get('/students/help-orders', {
+        params: {
+          page,
+        },
+      });
+
+      const { data } = response;
+
+      setHelpOrders(data);
+
+      const checkFinalPage = await api.get('/students/help-orders', {
+        params: {
+          page: page + 1,
+        },
+      });
+
+      if (checkFinalPage.data.length === 0) {
+        setLoadingNext(false);
+        setFinalPage(true);
+      } else {
+        setLoadingNext(false);
+        setFinalPage(false);
+      }
+    }
+
+    loadHelpOrders();
+  }, [page]);
+
+  async function next() {
+    setLoadingNext(true);
+
+    setPage((page += 1));
+
+    const pageHelpOrders = await api.get('/students/help-orders', {
+      params: {
+        page,
+      },
+    });
+
+    const checkFinalPage = await api.get('/students/help-orders', {
+      params: {
+        page: page + 1,
+      },
+    });
+
+    if (checkFinalPage.data.length === 0) {
+      setHelpOrders(pageHelpOrders.data);
+      setLoadingNext(false);
+      setFinalPage(true);
+    } else {
+      setLoadingNext(false);
+      setFinalPage(false);
+    }
+  }
+
+  async function previous() {
+    setLoadingNext(true);
+    setFinalPage(false);
+
+    if (page !== 1) {
+      setPage((page -= 1));
+    }
+
+    const pageHelpOrders = await api.get('/students/help-orders', {
+      params: {
+        page,
+      },
+    });
+
+    setHelpOrders(pageHelpOrders.data);
+    setLoadingNext(false);
+  }
 
   const handleOpen = () => {
     setOpen(true);
@@ -57,48 +140,37 @@ export default function Students() {
           <span />
         </header>
         <ul>
-          <li>
-            <span>Matheus Kielkowski</span>
-            <div>
-              <button id="answer" type="button" onClick={handleOpen}>
-                answer
-              </button>
-            </div>
-          </li>
-          <li>
-            <span>Matheus Kielkowski</span>
-            <div>
-              <button id="answer" type="button">
-                answer
-              </button>
-            </div>
-          </li>
-          <li>
-            <span>Matheus Kielkowski</span>
-            <div>
-              <button id="answer" type="button">
-                answer
-              </button>
-            </div>
-          </li>
-          <li>
-            <span>Matheus Kielkowski</span>
-            <div>
-              <button id="answer" type="button">
-                answer
-              </button>
-            </div>
-          </li>
-          <li>
-            <span>Matheus Kielkowski</span>
-            <div>
-              <button id="answer" type="button">
-                answer
-              </button>
-            </div>
-          </li>
+          {helporders.map(helporder => (
+            <li key={helporder.id}>
+              <span>{helporder.student}</span>
+              <div>
+                <button id="answer" type="button" onClick={handleOpen}>
+                  answer
+                </button>
+              </div>
+            </li>
+          ))}
         </ul>
       </Content>
+
+      <Pagination>
+        <Previous
+          type="button"
+          onClick={() => previous()}
+          page={page}
+          loadingNext={loadingNext}
+        >
+          Previous
+        </Previous>
+        <Next
+          type="button"
+          onClick={() => next()}
+          loadingNext={loadingNext}
+          finalPage={finalPage}
+        >
+          Next
+        </Next>
+      </Pagination>
 
       <Modal
         aria-labelledby="transition-modal-title"

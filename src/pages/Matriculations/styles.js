@@ -107,16 +107,16 @@ export const Content = styled.div`
       width: 20%;
     }
     li > span:first-child + span {
-      width: 12%;
+      width: 13.5%;
     }
     li > span:first-child + span + span {
       width: 20%;
     }
     li > span:first-child + span + span + span {
-      width: 24%;
+      width: 22.8%;
     }
     li > span:first-child + span + span + span + span {
-      width: 15%;
+      width: 13%;
     }
     li > div {
       width: 0%;
@@ -140,5 +140,61 @@ export const Content = styled.div`
   }
   header > div {
     width: 0%;
+  }
+`;
+
+export const Pagination = styled.div`
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+`;
+
+export const Previous = styled.button.attrs(props => ({
+  type: 'button',
+  disabled: props.page === 1 || props.loadingNext,
+}))`
+  background: #ee4d63;
+  color: #eee;
+  font-style: bold;
+  & + button {
+    margin-left: 10px;
+  }
+  font-size: 17px;
+  float: center;
+  display: flex;
+  padding: 10px 15px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+  &:hover {
+    background: ${darken(0.05, '#ee4d63')};
+  }
+`;
+
+export const Next = styled.button.attrs(props => ({
+  type: 'button',
+  disabled: props.loadingNext || props.finalPage,
+}))`
+  background: #ee4d63;
+  color: #eee;
+  font-style: bold;
+  & + button {
+    margin-left: 10px;
+  }
+  font-size: 17px;
+  float: center;
+  display: flex;
+  padding: 10px 15px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+  &:hover {
+    background: ${darken(0.05, '#ee4d63')};
   }
 `;

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { lighten } from 'polished';
+import { lighten, darken } from 'polished';
 
 export const Container = styled.div`
   max-width: 600px;
@@ -76,5 +76,61 @@ export const Content = styled.div`
   }
   header > div {
     width: 0%;
+  }
+`;
+
+export const Pagination = styled.div`
+  margin-top: 15px;
+  display: flex;
+  align-items: center;
+`;
+
+export const Previous = styled.button.attrs(props => ({
+  type: 'button',
+  disabled: props.page === 1 || props.loadingNext,
+}))`
+  background: #ee4d63;
+  color: #eee;
+  font-style: bold;
+  & + button {
+    margin-left: 10px;
+  }
+  font-size: 17px;
+  float: center;
+  display: flex;
+  padding: 10px 15px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+  &:hover {
+    background: ${darken(0.05, '#ee4d63')};
+  }
+`;
+
+export const Next = styled.button.attrs(props => ({
+  type: 'button',
+  disabled: props.loadingNext || props.finalPage,
+}))`
+  background: #ee4d63;
+  color: #eee;
+  font-style: bold;
+  & + button {
+    margin-left: 10px;
+  }
+  font-size: 17px;
+  float: center;
+  display: flex;
+  padding: 10px 15px;
+  border: 1px solid #eee;
+  border-radius: 4px;
+  &[disabled] {
+    cursor: not-allowed;
+    opacity: 0.6;
+  }
+  &:hover {
+    background: ${darken(0.05, '#ee4d63')};
   }
 `;
