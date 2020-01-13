@@ -122,8 +122,8 @@ export default function Matriculations() {
         <ul>
           {matriculations.map(matriculation => (
             <li key={matriculation.id}>
-              <span>{matriculation.student}</span>
-              <span>{matriculation.plan}</span>
+              <span>{matriculation.student_name}</span>
+              <span>{matriculation.plan_name}</span>
               <span>
                 {format(new Date(matriculation.start_date), 'dd/MM/yyyy')}
               </span>
