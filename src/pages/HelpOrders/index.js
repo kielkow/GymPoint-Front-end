@@ -142,7 +142,7 @@ export default function Students() {
         <ul>
           {helporders.map(helporder => (
             <li key={helporder.id}>
-              <span>{helporder.student}</span>
+              <span>{helporder.student_name}</span>
               <div>
                 <button id="answer" type="button" onClick={handleOpen}>
                   answer
