@@ -1,3 +1,4 @@
+/* eslint-disable react/prop-types */
 /* eslint-disable prefer-const */
 /* eslint-disable jsx-a11y/mouse-events-have-key-events */
 import React, { useState, useEffect } from 'react';
@@ -17,7 +18,7 @@ const useStyles = makeStyles(theme => ({
     justifyContent: 'center',
   },
   paper: {
-    maxWidth: '500px',
+    width: '500px',
     display: 'flex',
     flexDirection: 'column',
     backgroundColor: theme.palette.background.paper,
@@ -37,6 +38,7 @@ export default function Students() {
   let [page, setPage] = useState(1);
   const [loadingNext, setLoadingNext] = useState(false);
   const [finalPage, setFinalPage] = useState(false);
+  const [question, setQuestion] = useState('');
 
   useEffect(() => {
     async function loadHelpOrders() {
@@ -113,12 +115,14 @@ export default function Students() {
     setLoadingNext(false);
   }
 
-  const handleOpen = () => {
+  const handleOpen = e => {
     setOpen(true);
+    setQuestion(e.target.value);
   };
 
   const handleClose = () => {
     setOpen(false);
+    setQuestion('');
   };
 
   const changeBtnColorOver = () => {
@@ -144,7 +148,12 @@ export default function Students() {
             <li key={helporder.id}>
               <span>{helporder.student_name}</span>
               <div>
-                <button id="answer" type="button" onClick={handleOpen}>
+                <button
+                  id="answer"
+                  type="button"
+                  onClick={handleOpen}
+                  value={helporder.question}
+                >
                   answer
                 </button>
               </div>
@@ -196,13 +205,7 @@ export default function Students() {
                   lineHeight: '20px',
                 }}
               >
-                It has survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged. It was
-                popularised in the 1960s with the release of Letraset sheets
-                containing Lorem? It has survived not only five centuries, but
-                also the leap into electronic typesetting, remaining essentially
-                unchanged. It was popularised in the 1960s with the release of
-                Letraset sheets containing Lorem?
+                {question}
               </p>
             </div>
             <div
