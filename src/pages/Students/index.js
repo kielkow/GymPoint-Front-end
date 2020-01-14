@@ -159,25 +159,25 @@ export default function Students() {
             </li>
           ))}
         </ul>
-        <Pagination>
-          <Previous
-            type="button"
-            onClick={() => previous()}
-            page={page}
-            loadingNext={loadingNext}
-          >
-            Previous
-          </Previous>
-          <Next
-            type="button"
-            onClick={() => next()}
-            loadingNext={loadingNext}
-            finalPage={finalPage}
-          >
-            Next
-          </Next>
-        </Pagination>
       </Content>
+      <Pagination>
+        <Previous
+          type="button"
+          onClick={() => previous()}
+          page={page}
+          loadingNext={loadingNext}
+        >
+          Previous
+        </Previous>
+        <Next
+          type="button"
+          onClick={() => next()}
+          loadingNext={loadingNext}
+          finalPage={finalPage}
+        >
+          Next
+        </Next>
+      </Pagination>
     </Container>
   );
 }
