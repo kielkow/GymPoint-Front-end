@@ -6,7 +6,8 @@ import { Input } from '@rocketseat/unform';
 import { MdAdd } from 'react-icons/md';
 
 import { Link } from 'react-router-dom';
-
+import { toast } from 'react-toastify';
+import history from '~/services/history';
 import { Container, Content, Pagination, Previous, Next } from './styles';
 
 import api from '~/services/api';
@@ -45,10 +46,18 @@ export default function Plans() {
     }
 
     loadPlans();
-  }, [page]);
+  }, [page, plans]);
 
-  function deletePlan() {
-    confirm('Do you really wish delete this plan?');
+  async function deletePlan(e) {
+    const confirm = window.confirm('Do you really wish delete this plan?');
+
+    try {
+      if (confirm) await api.delete(`/plans/${e}`);
+      toast.success('Plan deleted with success!');
+      history.push('/plans');
+    } catch (err) {
+      toast.error('Not possible delete this student');
+    }
   }
 
   async function next() {
@@ -125,7 +134,12 @@ export default function Plans() {
                 <Link id="edit" to="/editplan">
                   edit
                 </Link>
-                <button id="delete" type="button" onClick={deletePlan}>
+                <button
+                  id="delete"
+                  type="button"
+                  onClick={() => deletePlan(plan.id)}
+                  value={plan.id}
+                >
                   delete
                 </button>
               </div>
