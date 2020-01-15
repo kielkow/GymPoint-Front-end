@@ -56,12 +56,14 @@ export default function Students() {
   async function deleteStudent(e) {
     const confirm = window.confirm('Do you really wish delete this student?');
 
-    try {
-      if (confirm) await api.delete(`/students/${e}`);
-      toast.success('Student deleted with success!');
-      history.push('/students');
-    } catch (err) {
-      toast.error('Not possible delete this student');
+    if (confirm) {
+      try {
+        await api.delete(`/students/${e}`);
+        toast.success('Student deleted with success!');
+        history.push('/students');
+      } catch (err) {
+        toast.error('Not possible delete this student');
+      }
     }
   }
 

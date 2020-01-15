@@ -51,12 +51,14 @@ export default function Plans() {
   async function deletePlan(e) {
     const confirm = window.confirm('Do you really wish delete this plan?');
 
-    try {
-      if (confirm) await api.delete(`/plans/${e}`);
-      toast.success('Plan deleted with success!');
-      history.push('/plans');
-    } catch (err) {
-      toast.error('Not possible delete this student');
+    if (confirm) {
+      try {
+        await api.delete(`/plans/${e}`);
+        toast.success('Plan deleted with success!');
+        history.push('/plans');
+      } catch (err) {
+        toast.error('Not possible delete this student');
+      }
     }
   }
 

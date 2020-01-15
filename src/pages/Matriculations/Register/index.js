@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { Input, Select } from '@rocketseat/unform';
 import { MdArrowBack, MdSave } from 'react-icons/md';
 
@@ -6,18 +6,35 @@ import { Link } from 'react-router-dom';
 
 import { Container, Content } from './styles';
 
-export default function RegisterMatriculation() {
-  const studentsOptions = [
-    { id: 'matheuskielkowski', title: 'Matheus Kielkowski' },
-    { id: 'lucassilva', title: 'Lucas Silva' },
-    { id: 'thiagotakayama', title: 'Thiago Takayama' },
-  ];
+import api from '~/services/api';
 
-  const plansOptions = [
-    { id: 'start', title: 'Start' },
-    { id: 'gold', title: 'Gold' },
-    { id: 'platinum', title: 'Platinum' },
-  ];
+export default function RegisterMatriculation() {
+  const [studentsOptions, setStudentsOptions] = useState([]);
+  const [plansOptions, setPlansOptions] = useState([]);
+
+  useEffect(() => {
+    async function loadStudents() {
+      const response = await api.get('/students');
+
+      const { data } = response;
+
+      const students = data.map(element => {
+        return { id: element.id, title: element.name };
+      });
+
+      setStudentsOptions(students);
+    }
+    async function loadPlans() {
+      const response = await api.get('/plans');
+
+      const { data } = response;
+
+      setPlansOptions(data);
+    }
+
+    loadStudents();
+    loadPlans();
+  }, []);
 
   return (
     <Container>
