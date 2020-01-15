@@ -11,6 +11,7 @@ import api from '~/services/api';
 export default function RegisterMatriculation() {
   const [studentsOptions, setStudentsOptions] = useState([]);
   const [plansOptions, setPlansOptions] = useState([]);
+  const [planSelected, setPlanSelected] = useState({});
 
   useEffect(() => {
     async function loadStudents() {
@@ -35,6 +36,16 @@ export default function RegisterMatriculation() {
     loadStudents();
     loadPlans();
   }, []);
+
+  function handleChangePlanSelected(e) {
+    const plan = e.target.options[e.target.value].text;
+
+    const planCompare = plansOptions.filter(element => {
+      return element.title === plan;
+    });
+
+    setPlanSelected(planCompare[0]);
+  }
 
   return (
     <Container>
@@ -67,6 +78,7 @@ export default function RegisterMatriculation() {
               name="plans"
               options={plansOptions}
               placeholder="Search plan..."
+              onChange={handleChangePlanSelected}
             />
           </div>
           <div className="childDiv">
@@ -92,6 +104,7 @@ export default function RegisterMatriculation() {
             <Input
               name="finalprice"
               readOnly
+              value={planSelected.price}
               style={{
                 backgroundColor: '#e6e3e3',
               }}
