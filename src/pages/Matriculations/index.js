@@ -7,8 +7,9 @@ import { MdAdd } from 'react-icons/md';
 import { AiTwotoneAlert } from 'react-icons/ai';
 
 import { Link } from 'react-router-dom';
-
+import { toast } from 'react-toastify';
 import { format } from 'date-fns';
+import history from '~/services/history';
 import { Container, Content, Pagination, Previous, Next } from './styles';
 
 import api from '~/services/api';
@@ -47,10 +48,22 @@ export default function Matriculations() {
     }
 
     loadMatriculations();
-  }, [page]);
+  }, [page, matriculations]);
 
-  function deleteMatriculation() {
-    confirm('Do you really wish delete this matriculation?');
+  async function deleteMatriculation(e) {
+    const confirm = window.confirm(
+      'Do you really wish delete this matriculation?'
+    );
+
+    if (confirm) {
+      try {
+        await api.delete(`/matriculations/${e}`);
+        toast.success('Matriculation deleted with success!');
+        history.push('/matriculations');
+      } catch (err) {
+        toast.error('Not possible delete this matriculation');
+      }
+    }
   }
 
   async function next() {
@@ -141,7 +154,11 @@ export default function Matriculations() {
                 <Link id="edit" to="/editmatriculation">
                   edit
                 </Link>
-                <button id="delete" type="button" onClick={deleteMatriculation}>
+                <button
+                  id="delete"
+                  type="button"
+                  onClick={() => deleteMatriculation(matriculation.id)}
+                >
                   delete
                 </button>
               </div>
