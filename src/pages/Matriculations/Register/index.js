@@ -30,7 +30,16 @@ export default function RegisterMatriculation() {
 
       const { data } = response;
 
-      setPlansOptions(data);
+      const plans = data.map(element => {
+        return {
+          id: element.title,
+          title: element.title,
+          duration: element.duration,
+          price: element.price,
+        };
+      });
+
+      setPlansOptions(plans);
     }
 
     loadStudents();
@@ -38,7 +47,7 @@ export default function RegisterMatriculation() {
   }, []);
 
   function handleChangePlanSelected(e) {
-    const plan = e.target.options[e.target.value].text;
+    const plan = e.target.value;
 
     const planCompare = plansOptions.filter(element => {
       return element.title === plan;
