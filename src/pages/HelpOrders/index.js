@@ -7,6 +7,8 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 
+import { toast } from 'react-toastify';
+
 import { Container, Content, Pagination, Previous, Next } from './styles';
 
 import api from '~/services/api';
@@ -39,6 +41,7 @@ export default function Students() {
   const [loadingNext, setLoadingNext] = useState(false);
   const [finalPage, setFinalPage] = useState(false);
   const [question, setQuestion] = useState('');
+  const [answer, setAnswer] = useState({ id: null, answer: '' });
 
   useEffect(() => {
     async function loadHelpOrders() {
@@ -68,7 +71,46 @@ export default function Students() {
     }
 
     loadHelpOrders();
-  }, [page]);
+  }, [page, helporders]);
+
+  const handleClose = () => {
+    setOpen(false);
+    setQuestion('');
+
+    const cleanAnswer = {
+      id: null,
+      answer: '',
+    };
+    setAnswer(cleanAnswer);
+  };
+
+  async function sendAnswer() {
+    const answerText = { answer: answer.answer };
+    try {
+      await api.post(`/help-orders/${answer.id}/answer`, answerText);
+      toast.success('Answer sended with success!');
+      handleClose();
+    } catch (err) {
+      toast.error('Fail on send mensage');
+      handleClose();
+    }
+  }
+
+  function handleChangeAnswer(e) {
+    const newAnswer = {
+      id: answer.id,
+      answer: e.target.value,
+    };
+    setAnswer(newAnswer);
+  }
+
+  function handleChangeAnswerId(helporderid) {
+    const newAnswer = {
+      id: helporderid,
+      answer: answer.answer,
+    };
+    setAnswer(newAnswer);
+  }
 
   async function next() {
     setLoadingNext(true);
@@ -118,11 +160,7 @@ export default function Students() {
   const handleOpen = e => {
     setOpen(true);
     setQuestion(e.target.value);
-  };
-
-  const handleClose = () => {
-    setOpen(false);
-    setQuestion('');
+    handleChangeAnswerId(Number(e.target.className));
   };
 
   const changeBtnColorOver = () => {
@@ -150,6 +188,7 @@ export default function Students() {
               <div>
                 <button
                   id="answer"
+                  className={helporder.id}
                   type="button"
                   onClick={handleOpen}
                   value={helporder.question}
@@ -229,6 +268,7 @@ export default function Students() {
                   resize: 'none',
                   overflow: 'hidden',
                 }}
+                onChange={handleChangeAnswer}
               />
             </div>
             <button
@@ -246,6 +286,7 @@ export default function Students() {
               }}
               onMouseOver={changeBtnColorOver}
               onMouseOut={changeBtnColorOut}
+              onClick={sendAnswer}
             >
               Answer Student
             </button>
