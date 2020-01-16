@@ -1,9 +1,15 @@
+/* eslint-disable consistent-return */
 import React, { useState, useEffect } from 'react';
 import { Input, Select } from '@rocketseat/unform';
 import { MdArrowBack, MdSave } from 'react-icons/md';
 
+import { addMonths, parseISO, format } from 'date-fns';
+import { zonedTimeToUtc } from 'date-fns-tz';
+
 import { Link } from 'react-router-dom';
 
+import { toast } from 'react-toastify';
+import history from '~/services/history';
 import { Container, Content } from './styles';
 
 import api from '~/services/api';
@@ -12,6 +18,12 @@ export default function RegisterMatriculation() {
   const [studentsOptions, setStudentsOptions] = useState([]);
   const [plansOptions, setPlansOptions] = useState([]);
   const [planSelected, setPlanSelected] = useState({});
+  const [endDate, setEndDate] = useState('');
+  const [matriculation, setMatriculation] = useState({
+    student_id: null,
+    plan_id: null,
+    start_date: null,
+  });
 
   useEffect(() => {
     async function loadStudents() {
@@ -32,7 +44,7 @@ export default function RegisterMatriculation() {
 
       const plans = data.map(element => {
         return {
-          id: element.title,
+          id: element.id,
           title: element.title,
           duration: element.duration,
           price: element.price,
@@ -47,13 +59,77 @@ export default function RegisterMatriculation() {
   }, []);
 
   function handleChangePlanSelected(e) {
-    const plan = e.target.value;
+    const planId = e.target.value;
+    const plan = e.target.options[e.target.value].text;
 
     const planCompare = plansOptions.filter(element => {
       return element.title === plan;
     });
 
     setPlanSelected(planCompare[0]);
+
+    setMatriculation({
+      student_id: matriculation.student_id,
+      plan_id: Number(planId),
+      start_date: matriculation.start_date,
+    });
+  }
+
+  function handleChangeStudentSelected(e) {
+    const studentId = Number(e.target.value);
+
+    const studentCompare = studentsOptions.filter(element => {
+      return element.id === studentId;
+    });
+
+    setMatriculation({
+      student_id: studentCompare[0].id,
+      plan_id: matriculation.plan_id,
+      start_date: matriculation.start_date,
+    });
+  }
+
+  function handleChangeStartedDate(e) {
+    const startDate = format(
+      zonedTimeToUtc(parseISO(e.target.value), 'America/Sao_Paulo'),
+      "yyyy-MM-dd'T'H2:mm:ss.SSS"
+    );
+
+    setMatriculation({
+      student_id: matriculation.student_id,
+      plan_id: matriculation.plan_id,
+      start_date: `${startDate}Z`,
+    });
+
+    if (planSelected.duration) {
+      setEndDate(
+        format(
+          addMonths(
+            zonedTimeToUtc(parseISO(startDate), 'America/Sao_Paulo'),
+            planSelected.duration
+          ),
+          'dd-MM-yyyy'
+        ).replace(/-/g, '/')
+      );
+    }
+  }
+
+  async function saveMatriculation() {
+    const arrayMatriculation = Object.values(matriculation);
+    let isNull = false;
+    arrayMatriculation.forEach(propMatriculation => {
+      if (propMatriculation === null || propMatriculation === '') isNull = true;
+    });
+
+    if (isNull) return toast.error('Please check the matriculation');
+
+    try {
+      await api.post('/matriculations', matriculation);
+      toast.success('Matriculation created with success!');
+      history.push('/matriculations');
+    } catch (err) {
+      toast.error('This matriculation already exists!');
+    }
   }
 
   return (
@@ -65,7 +141,7 @@ export default function RegisterMatriculation() {
             <MdArrowBack color="#fff" size={18} />
             <span>Back</span>
           </Link>
-          <button type="button">
+          <button type="button" onClick={saveMatriculation}>
             <MdSave color="#fff" size={18} />
             <span>Save</span>
           </button>
@@ -78,6 +154,7 @@ export default function RegisterMatriculation() {
             name="students"
             options={studentsOptions}
             placeholder="Search student..."
+            onChange={handleChangeStudentSelected}
           />
         </div>
         <div className="paternDiv">
@@ -96,6 +173,7 @@ export default function RegisterMatriculation() {
               name="startdate"
               type="date"
               placeholder="Start date matriculation..."
+              onChange={handleChangeStartedDate}
             />
           </div>
           <div className="childDiv">
@@ -103,6 +181,7 @@ export default function RegisterMatriculation() {
             <Input
               name="enddate"
               readOnly
+              value={endDate}
               style={{
                 backgroundColor: '#e6e3e3',
               }}
