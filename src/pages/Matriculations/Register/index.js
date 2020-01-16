@@ -60,7 +60,7 @@ export default function RegisterMatriculation() {
 
   function handleChangePlanSelected(e) {
     const planId = e.target.value;
-    const plan = e.target.options[e.target.value].text;
+    const plan = e.target.options[e.target.options.selectedIndex].text;
 
     const planCompare = plansOptions.filter(element => {
       return element.title === plan;
