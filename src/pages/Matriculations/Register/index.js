@@ -92,7 +92,7 @@ export default function RegisterMatriculation() {
   function handleChangeStartedDate(e) {
     const startDate = format(
       zonedTimeToUtc(parseISO(e.target.value), 'America/Sao_Paulo'),
-      "yyyy-MM-dd'T'H2:mm:ss.SSS"
+      "yyyy-MM-dd'T'H3:mm:ss.SSS"
     );
 
     setMatriculation({
