@@ -131,7 +131,7 @@ export default function Plans() {
             <li key={plan.id}>
               <span>{plan.title}</span>
               <span>{plan.duration}</span>
-              <span>{plan.price}</span>
+              <span>{`$${plan.price},00`}</span>
               <div>
                 <Link id="edit" to="/editplan">
                   edit

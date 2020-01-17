@@ -108,12 +108,11 @@ export default function RegisterPlan() {
             <span>TOTAL PRICE</span>
             <Input
               name="totalprice"
-              type="number"
               readOnly
               style={{
                 backgroundColor: '#e6e3e3',
               }}
-              value={plan.duration * plan.price}
+              value={`$${plan.duration * plan.price},00`}
             />
           </div>
         </div>

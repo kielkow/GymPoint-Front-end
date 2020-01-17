@@ -17,7 +17,12 @@ import api from '~/services/api';
 export default function RegisterMatriculation() {
   const [studentsOptions, setStudentsOptions] = useState([]);
   const [plansOptions, setPlansOptions] = useState([]);
-  const [planSelected, setPlanSelected] = useState({});
+  const [planSelected, setPlanSelected] = useState({
+    id: null,
+    title: '',
+    duration: 0,
+    price: 0,
+  });
   const [endDate, setEndDate] = useState('');
   const [matriculation, setMatriculation] = useState({
     student_id: null,
@@ -192,7 +197,7 @@ export default function RegisterMatriculation() {
             <Input
               name="finalprice"
               readOnly
-              value={planSelected.price}
+              value={`$${planSelected.price},00`}
               style={{
                 backgroundColor: '#e6e3e3',
               }}
