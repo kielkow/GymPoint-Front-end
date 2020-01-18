@@ -1,4 +1,5 @@
 import React from 'react';
+import { useSelector } from 'react-redux';
 import { Input } from '@rocketseat/unform';
 import { MdArrowBack, MdSave } from 'react-icons/md';
 
@@ -7,6 +8,8 @@ import { Link } from 'react-router-dom';
 import { Container, Content } from './styles';
 
 export default function EditStudent() {
+  const student = useSelector(state => state.student);
+
   return (
     <Container>
       <header>
@@ -28,7 +31,7 @@ export default function EditStudent() {
           <Input
             name="name"
             placeholder="Student name..."
-            value="Matheus Kielkowski"
+            value={student.name}
           />
         </div>
         <div>
@@ -37,7 +40,7 @@ export default function EditStudent() {
             name="email"
             type="email"
             placeholder="Student e-mail..."
-            value="matheuskiel@fiorifer.com.br"
+            value={student.email}
           />
         </div>
         <div className="paternDiv">
@@ -47,7 +50,7 @@ export default function EditStudent() {
               name="age"
               type="number"
               placeholder="Student age..."
-              value="19"
+              value={student.age}
             />
           </div>
           <div className="childDiv">
@@ -56,7 +59,7 @@ export default function EditStudent() {
               name="weigth"
               type="number"
               placeholder="Student weigth..."
-              value="88"
+              value={student.weigth}
             />
           </div>
           <div className="childDiv">
@@ -65,7 +68,7 @@ export default function EditStudent() {
               name="heigth"
               type="number"
               placeholder="Student heigth..."
-              value="1.77"
+              value={student.heigth}
             />
           </div>
         </div>

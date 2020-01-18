@@ -1,18 +1,18 @@
 /* eslint-disable no-param-reassign */
 import produce from 'immer';
 
-export default function student(state = [], action) {
-  switch (action.type) {
-    case '@student/UPDATE_STUDENT_SUCCESS': {
-      return produce(state, draft => {
-        const studentIndex = draft.findIndex(s => s.id === action.id);
+const INITIAL_STATE = {
+  student: null,
+};
 
-        if (studentIndex >= 0) {
-          draft[studentIndex] = action.student;
-        }
-      });
+export default function student(state = INITIAL_STATE, action) {
+  return produce(state, draft => {
+    switch (action.type) {
+      case '@student/UPDATE_STUDENT_REQUEST': {
+        draft.student = action.payload.student;
+        break;
+      }
+      default:
     }
-    default:
-      return state;
-  }
+  });
 }

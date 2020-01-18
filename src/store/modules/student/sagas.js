@@ -1,28 +1,35 @@
-import { call, put, all, takeLatest } from 'redux-saga/effects';
+/* eslint-disable camelcase */
+import { takeLatest, call, put, all } from 'redux-saga/effects';
 import { toast } from 'react-toastify';
 
-import api from '../../../services/api';
-import history from '../../../services/history';
+import api from '~/services/api';
 
-import { updateStudentRequest } from './actions';
+import { updateStudentSuccess, updateStudentFailure } from './actions';
 
-function* editRequest(student) {
-  const studentRequest = yield call(api.get, `/students/${student.id}`);
+export function* updateStudent({ payload }) {
+  try {
+    const { provider, name, email, age, weigth, heigth } = payload.data;
 
-  history.push('/registerstudnet');
+    const student = {
+      provider,
+      name,
+      email,
+      age,
+      weigth,
+      heigth,
+    };
 
-  return studentRequest.data;
-}
+    const response = yield call(api.put, 'students', student);
 
-function* editSuccess(student) {
-  yield put(updateStudentRequest(student.data));
+    toast.success('Student updated with success!');
 
-  toast.success('Student edited with success');
-
-  history.push('/students');
+    yield put(updateStudentSuccess(response.data));
+  } catch (err) {
+    toast.error('Failure while update student, please verify his data');
+    yield put(updateStudentFailure());
+  }
 }
 
 export default all([
-  takeLatest('@student/UPDATE_STUDENT_REQUEST', editRequest),
-  takeLatest('@studnet/UPDATE_STUDENT_SUCCESS', editSuccess),
+  takeLatest('@student/UPDATE_STUDENT_SUCCESS', updateStudent),
 ]);
