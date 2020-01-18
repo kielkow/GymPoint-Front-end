@@ -4,16 +4,3 @@ export function updateStudentRequest(data) {
     payload: { data },
   };
 }
-
-export function updateStudentSuccess(student) {
-  return {
-    type: '@student/UPDATE_STUDENT_SUCCESS',
-    payload: { student },
-  };
-}
-
-export function updateStudentFailure() {
-  return {
-    type: '@student/UPDATE_STUDENT_REQUEST',
-  };
-}
