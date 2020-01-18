@@ -2,6 +2,7 @@
 /* eslint-disable no-alert */
 /* eslint-disable no-restricted-globals */
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Input } from '@rocketseat/unform';
 import { MdAdd } from 'react-icons/md';
 
@@ -12,11 +13,15 @@ import { Container, Content, Pagination, Previous, Next } from './styles';
 
 import api from '~/services/api';
 
+import * as PlanActions from '../../store/modules/plan/actions';
+
 export default function Plans() {
   const [plans, setPlans] = useState([]);
   let [page, setPage] = useState(1);
   const [loadingNext, setLoadingNext] = useState(false);
   const [finalPage, setFinalPage] = useState(false);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function loadPlans() {
@@ -60,6 +65,10 @@ export default function Plans() {
         toast.error('Not possible delete this student');
       }
     }
+  }
+
+  function editRequest(plan) {
+    dispatch(PlanActions.updatePlanRequest(plan));
   }
 
   async function next() {
@@ -133,7 +142,11 @@ export default function Plans() {
               <span>{plan.duration}</span>
               <span>{`$${plan.price},00`}</span>
               <div>
-                <Link id="edit" to="/editplan">
+                <Link
+                  id="edit"
+                  to="/editplan"
+                  onClick={() => editRequest(plan)}
+                >
                   edit
                 </Link>
                 <button
