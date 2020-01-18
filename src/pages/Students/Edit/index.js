@@ -12,8 +12,7 @@ import history from '~/services/history';
 import { Container, Content } from './styles';
 
 export default function EditStudent() {
-  const draftStudents = useSelector(state => state.student);
-  const student = draftStudents[draftStudents.length - 1];
+  const student = useSelector(state => state.student.student);
 
   const [stundetEdit, setStudentEdit] = useState(student);
 
