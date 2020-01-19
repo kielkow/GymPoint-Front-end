@@ -2,6 +2,7 @@
 /* eslint-disable no-alert */
 /* eslint-disable no-restricted-globals */
 import React, { useState, useEffect } from 'react';
+import { useDispatch } from 'react-redux';
 import { Input } from '@rocketseat/unform';
 import { MdAdd } from 'react-icons/md';
 import { AiTwotoneAlert } from 'react-icons/ai';
@@ -14,11 +15,15 @@ import { Container, Content, Pagination, Previous, Next } from './styles';
 
 import api from '~/services/api';
 
+import * as MatriculationActions from '../../store/modules/matriculation/actions';
+
 export default function Matriculations() {
   const [matriculations, setMatriculations] = useState([]);
   let [page, setPage] = useState(1);
   const [loadingNext, setLoadingNext] = useState(false);
   const [finalPage, setFinalPage] = useState(false);
+
+  const dispatch = useDispatch();
 
   useEffect(() => {
     async function loadMatriculations() {
@@ -49,6 +54,10 @@ export default function Matriculations() {
 
     loadMatriculations();
   }, [page, matriculations]);
+
+  function editRequest(matriculation) {
+    dispatch(MatriculationActions.updateMatriculationRequest(matriculation));
+  }
 
   async function deleteMatriculation(e) {
     const confirm = window.confirm(
@@ -151,7 +160,11 @@ export default function Matriculations() {
               </span>
               <span />
               <div>
-                <Link id="edit" to="/editmatriculation">
+                <Link
+                  id="edit"
+                  to="/editmatriculation"
+                  onClick={() => editRequest(matriculation)}
+                >
                   edit
                 </Link>
                 <button
