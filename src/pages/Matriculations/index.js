@@ -53,7 +53,33 @@ export default function Matriculations() {
     }
 
     loadMatriculations();
-  }, [page, matriculations]);
+  }, [page]);
+
+  async function reloadMatriculations() {
+    const response = await api.get('/matriculations', {
+      params: {
+        page,
+      },
+    });
+
+    const { data } = response;
+
+    setMatriculations(data);
+
+    const checkFinalPage = await api.get('/matriculations', {
+      params: {
+        page: page + 1,
+      },
+    });
+
+    if (checkFinalPage.data.length === 0) {
+      setLoadingNext(false);
+      setFinalPage(true);
+    } else {
+      setLoadingNext(false);
+      setFinalPage(false);
+    }
+  }
 
   function editRequest(matriculation) {
     dispatch(MatriculationActions.updateMatriculationRequest(matriculation));
@@ -69,6 +95,7 @@ export default function Matriculations() {
         await api.delete(`/matriculations/${e}`);
         toast.success('Matriculation deleted with success!');
         history.push('/matriculations');
+        reloadMatriculations();
       } catch (err) {
         toast.error('Not possible delete this matriculation');
       }
@@ -120,6 +147,20 @@ export default function Matriculations() {
     setLoadingNext(false);
   }
 
+  async function searchMatriculation(e) {
+    if (e.target.value === '' || e.target.value === null) {
+      const originalMatriculations = await api.get('/matriculations');
+      setMatriculations(originalMatriculations.data);
+      return;
+    }
+    const similarMatriculations = await api.get('/matriculations', {
+      params: {
+        student_name: e.target.value,
+      },
+    });
+    setMatriculations(similarMatriculations.data);
+  }
+
   return (
     <Container>
       <header>
@@ -129,7 +170,11 @@ export default function Matriculations() {
             <MdAdd color="#fff" size={18} />
             <span>Register</span>
           </Link>
-          <Input name="name" placeholder="Search by student..." />
+          <Input
+            name="name"
+            placeholder="Search by student..."
+            onChange={searchMatriculation}
+          />
         </div>
       </header>
       <Content>
