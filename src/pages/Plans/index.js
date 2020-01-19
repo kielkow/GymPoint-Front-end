@@ -51,7 +51,33 @@ export default function Plans() {
     }
 
     loadPlans();
-  }, [page, plans]);
+  }, [page]);
+
+  async function reloadPlans() {
+    const response = await api.get('/plans', {
+      params: {
+        page,
+      },
+    });
+
+    const { data } = response;
+
+    setPlans(data);
+
+    const checkFinalPage = await api.get('/plans', {
+      params: {
+        page: page + 1,
+      },
+    });
+
+    if (checkFinalPage.data.length === 0) {
+      setLoadingNext(false);
+      setFinalPage(true);
+    } else {
+      setLoadingNext(false);
+      setFinalPage(false);
+    }
+  }
 
   async function deletePlan(e) {
     const confirm = window.confirm('Do you really wish delete this plan?');
@@ -61,6 +87,7 @@ export default function Plans() {
         await api.delete(`/plans/${e}`);
         toast.success('Plan deleted with success!');
         history.push('/plans');
+        reloadPlans();
       } catch (err) {
         toast.error('Not possible delete this student');
       }
@@ -116,6 +143,20 @@ export default function Plans() {
     setLoadingNext(false);
   }
 
+  async function searchPlan(e) {
+    if (e.target.value === '' || e.target.value === null) {
+      const originalPlans = await api.get('/plans');
+      setPlans(originalPlans.data);
+      return;
+    }
+    const similarPlans = await api.get('/plans', {
+      params: {
+        title: e.target.value,
+      },
+    });
+    setPlans(similarPlans.data);
+  }
+
   return (
     <Container>
       <header>
@@ -125,7 +166,11 @@ export default function Plans() {
             <MdAdd color="#fff" size={18} />
             <span>Register</span>
           </Link>
-          <Input name="name" placeholder="Search by name..." />
+          <Input
+            name="name"
+            placeholder="Search by title..."
+            onChange={searchPlan}
+          />
         </div>
       </header>
       <Content>
