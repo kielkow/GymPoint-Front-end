@@ -71,7 +71,33 @@ export default function Students() {
     }
 
     loadHelpOrders();
-  }, [page, helporders]);
+  }, [page]);
+
+  async function reloadHelpOrders() {
+    const response = await api.get('/students/help-orders', {
+      params: {
+        page,
+      },
+    });
+
+    const { data } = response;
+
+    setHelpOrders(data);
+
+    const checkFinalPage = await api.get('/students/help-orders', {
+      params: {
+        page: page + 1,
+      },
+    });
+
+    if (checkFinalPage.data.length === 0) {
+      setLoadingNext(false);
+      setFinalPage(true);
+    } else {
+      setLoadingNext(false);
+      setFinalPage(false);
+    }
+  }
 
   const handleClose = () => {
     setOpen(false);
@@ -89,6 +115,7 @@ export default function Students() {
     try {
       await api.post(`/help-orders/${answer.id}/answer`, answerText);
       toast.success('Answer sended with success!');
+      reloadHelpOrders();
       handleClose();
     } catch (err) {
       toast.error('Fail on send mensage');
