@@ -1,3 +1,4 @@
+/* eslint-disable array-callback-return */
 /* eslint-disable prefer-const */
 /* eslint-disable no-alert */
 /* eslint-disable no-restricted-globals */
@@ -51,7 +52,33 @@ export default function Students() {
     }
 
     loadStudents();
-  }, [page, students]);
+  }, [page]);
+
+  async function reloadStudents() {
+    const response = await api.get('/students', {
+      params: {
+        page,
+      },
+    });
+
+    const { data } = response;
+
+    setStudents(data);
+
+    const checkFinalPage = await api.get('/students', {
+      params: {
+        page: page + 1,
+      },
+    });
+
+    if (checkFinalPage.data.length === 0) {
+      setLoadingNext(false);
+      setFinalPage(true);
+    } else {
+      setLoadingNext(false);
+      setFinalPage(false);
+    }
+  }
 
   async function deleteStudent(e) {
     const confirm = window.confirm('Do you really wish delete this student?');
@@ -61,6 +88,7 @@ export default function Students() {
         await api.delete(`/students/${e}`);
         toast.success('Student deleted with success!');
         history.push('/students');
+        reloadStudents();
       } catch (err) {
         toast.error('Not possible delete this student');
       }
@@ -116,6 +144,20 @@ export default function Students() {
     setLoadingNext(false);
   }
 
+  async function searchStudent(e) {
+    if (e.target.value === '' || e.target.value === null) {
+      const originalStudents = await api.get('/students');
+      setStudents(originalStudents.data);
+      return;
+    }
+    const similarStudents = await api.get('/students', {
+      params: {
+        name: e.target.value,
+      },
+    });
+    setStudents(similarStudents.data);
+  }
+
   return (
     <Container>
       <header>
@@ -125,7 +167,11 @@ export default function Students() {
             <MdAdd color="#fff" size={18} />
             <span>Register</span>
           </Link>
-          <Input name="name" placeholder="Search by name..." />
+          <Input
+            name="name"
+            placeholder="Search by name..."
+            onChange={searchStudent}
+          />
         </div>
       </header>
       <Content>
