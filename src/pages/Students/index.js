@@ -86,11 +86,15 @@ export default function Students() {
     if (confirm) {
       try {
         await api.delete(`/students/${e}`);
-        toast.success('Student deleted with success!');
+        toast.info(
+          'Not possible delete a student, please check his matriculation'
+        );
         history.push('/students');
         reloadStudents();
       } catch (err) {
-        toast.error('Not possible delete this student');
+        toast.error(
+          'Not possible delete a student, please check his matriculation'
+        );
       }
     }
   }
