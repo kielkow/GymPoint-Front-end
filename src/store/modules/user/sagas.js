@@ -17,11 +17,13 @@ export function* updateProfile({ payload }) {
       ...(rest.oldPassword ? rest : {}),
     };
 
-    const response = yield call(api.put, 'users', profile);
-
-    toast.success('Profile updated with success!');
-
-    yield put(updateProfileSuccess(response.data));
+    try {
+      const response = yield call(api.put, 'users', profile);
+      toast.success('Profile updated with success!');
+      yield put(updateProfileSuccess(response.data));
+    } catch (err) {
+      toast.error('Not possible update your picture, please refresh the page');
+    }
   } catch (err) {
     toast.error('Failure while update profile, please verify your data');
     yield put(updateProfileFailure());
