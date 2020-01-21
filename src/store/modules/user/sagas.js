@@ -22,7 +22,9 @@ export function* updateProfile({ payload }) {
       toast.success('Profile updated with success!');
       yield put(updateProfileSuccess(response.data));
     } catch (err) {
-      toast.error('Not possible update your picture, please refresh the page');
+      toast.error(
+        'Not possible update your picture, please refresh the page or check if you set your oldPassword'
+      );
     }
   } catch (err) {
     toast.error('Failure while update profile, please verify your data');
