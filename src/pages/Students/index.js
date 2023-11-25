@@ -86,9 +86,7 @@ export default function Students() {
     if (confirm) {
       try {
         await api.delete(`/students/${e}`);
-        toast.info(
-          'Not possible delete a student, please check his matriculation'
-        );
+        toast.info('Student deleted with success.');
         history.push('/students');
         reloadStudents();
       } catch (err) {
